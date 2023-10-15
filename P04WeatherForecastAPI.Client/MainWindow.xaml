@@ -1,0 +1,48 @@
+﻿<Window x:Class="P04WeatherForecastAPI.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:P04WeatherForecastAPI.Client"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="300" Width="400">
+    <DockPanel Height="300" VerticalAlignment="Top">
+        <StackPanel>
+            <StackPanel Width="150" DockPanel.Dock="Left">
+                <Label Content="City:" ></Label>
+                <TextBox x:Name="txtCity"></TextBox>
+                <Button x:Name="btnSearch" Content="Search" Click="btnSearch_Click"></Button>
+                <ListBox x:Name="lbData" DisplayMemberPath="LocalizedName" SelectionChanged="lbData_SelectionChanged"></ListBox>
+            </StackPanel>
+            <StackPanel Width="150">
+                <Label HorizontalAlignment="Center" Content="Temperature for city:"></Label>
+                <Label x:Name="lblCityName" HorizontalAlignment="Center" Content="..."></Label>
+                <Label  HorizontalAlignment="Center" Content="is:"></Label>
+                <Label x:Name="lblTemperatureValue" HorizontalAlignment="Center" Content=".."></Label>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Height="120">
+            <StackPanel Width="150" HorizontalAlignment="Left" >
+                <Label Content="Ip address:" ></Label>
+                <TextBox x:Name="txtIpAddr"></TextBox>
+                <Button x:Name="btnSearchIP" Content="Search" Click="btnSearchIpAddr_Click"></Button>
+            </StackPanel>
+            <StackPanel Width="150" HorizontalAlignment="Left">
+                <Label x:Name="lblIpAddrCityName" Content="Ip address city:"></Label>
+                <Label x:Name="lblIpAddrRegionName" Content="Ip address city region:"></Label>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Height="120">
+            <StackPanel Width="150" HorizontalAlignment="Left" >
+                <Label Content="Geo Position:" ></Label>
+                <TextBox x:Name="txtGeoPos"></TextBox>
+                <Button x:Name="btnSearchGeoPos" Content="Search" Click="btnSearchGeoPos_Click"></Button>
+            </StackPanel>
+            <StackPanel Width="150" HorizontalAlignment="Left">
+                <Label x:Name="lblGeoPosCountryName" Content="Geo position country:"></Label>
+                <Label x:Name="lblGeoPosRegionName" Content="Geo position region:"></Label>
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+
+</Window>

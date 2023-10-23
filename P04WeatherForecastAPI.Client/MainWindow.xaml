@@ -3,46 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:P04WeatherForecastAPI.Client"
+        xmlns:local="clr-namespace:P04WeatherForecastAPI.Client" xmlns:viewmodel="clr-namespace:P04WeatherForecastAPI.Client.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="400">
-    <DockPanel Height="300" VerticalAlignment="Top">
-        <StackPanel>
-            <StackPanel Width="150" DockPanel.Dock="Left">
-                <Label Content="City:" ></Label>
-                <TextBox x:Name="txtCity"></TextBox>
-                <Button x:Name="btnSearch" Content="Search" Click="btnSearch_Click"></Button>
-                <ListBox x:Name="lbData" DisplayMemberPath="LocalizedName" SelectionChanged="lbData_SelectionChanged"></ListBox>
-            </StackPanel>
-            <StackPanel Width="150">
-                <Label HorizontalAlignment="Center" Content="Temperature for city:"></Label>
-                <Label x:Name="lblCityName" HorizontalAlignment="Center" Content="..."></Label>
-                <Label  HorizontalAlignment="Center" Content="is:"></Label>
-                <Label x:Name="lblTemperatureValue" HorizontalAlignment="Center" Content=".."></Label>
-            </StackPanel>
+        Title="MainWindow" Height="300" Width="600">
+    <DockPanel Height="600">
+        <StackPanel Width="150" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label Content="City:" ></Label>
+            <TextBox x:Name="txtCity"></TextBox>
+            <Button x:Name="btnSearch" Content="Search" Command="{Binding LoadCitiesCommand}" CommandParameter="{Binding Text, ElementName=txtCity}"></Button>
+            <ListBox x:Name="lbData" ItemsSource="{Binding Cities}" SelectedItem="{Binding SelectedCity}" DisplayMemberPath="LocalizedName"></ListBox>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Height="120">
-            <StackPanel Width="150" HorizontalAlignment="Left" >
-                <Label Content="Ip address:" ></Label>
-                <TextBox x:Name="txtIpAddr"></TextBox>
-                <Button x:Name="btnSearchIP" Content="Search" Click="btnSearchIpAddr_Click"></Button>
-            </StackPanel>
-            <StackPanel Width="150" HorizontalAlignment="Left">
-                <Label x:Name="lblIpAddrCityName" Content="Ip address city:"></Label>
-                <Label x:Name="lblIpAddrRegionName" Content="Ip address city region:"></Label>
-            </StackPanel>
+        <StackPanel Width="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label HorizontalAlignment="Center" Content="Temperature for city:"></Label>
+            <Label x:Name="lblCityName" HorizontalAlignment="Center" Content="{Binding SelectedCity.LocalizedName}"></Label>
+            <Label HorizontalAlignment="Center" Content="is:"></Label>
+            <Label x:Name="lblTemperatureValue" HorizontalAlignment="Center" Content="{Binding CurrentTemperatureView.Temperature}"></Label>
+            <Label x:Name="lblHourlyTemp" HorizontalAlignment="Center" Content="Hourly temperature:"></Label>
+            <Label x:Name="lblFrecastHourSelectionLabel" HorizontalAlignment="Center" Content="{Binding HourlyForecastLabel.Label}"></Label>
+            <Label x:Name="lblHourlyForecast" HorizontalAlignment="Center" Content="{Binding HourlyTemperatureView.Temperature}"></Label>
+            <Button x:Name="btnNextHour" Content="Next" Width="80" Command="{Binding ShowNextHourlyForecastCommand}" IsEnabled="{Binding CanShowNextForecast}"></Button>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Bottom" Height="120">
-            <StackPanel Width="150" HorizontalAlignment="Left" >
-                <Label Content="Geo Position:" ></Label>
-                <TextBox x:Name="txtGeoPos"></TextBox>
-                <Button x:Name="btnSearchGeoPos" Content="Search" Click="btnSearchGeoPos_Click"></Button>
+        <StackPanel Width="250" HorizontalAlignment="Center">
+            <StackPanel Height="150">
+                <StackPanel Width="150" HorizontalAlignment="Center">
+                    <Label Content="Ip address:" />
+                    <TextBox x:Name="txtIpAddr"/>
+                    <Button x:Name="btnSearchIP" Content="Search" Command="{Binding LoadIpLocationCommand}" CommandParameter="{Binding Text, ElementName=txtIpAddr}"></Button>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    <Label x:Name="lblIpAddrResult" HorizontalAlignment="Center" Content="{Binding IpAddressView.Label}"></Label>
+                    <!--<Label x:Name="lblIpAddrCityName" Content="Ip address city:"/>
+                    <Label x:Name="lblIpAddrRegionName" Content="Ip address city region:"/>-->
+                </StackPanel>
             </StackPanel>
-            <StackPanel Width="150" HorizontalAlignment="Left">
-                <Label x:Name="lblGeoPosCountryName" Content="Geo position country:"></Label>
-                <Label x:Name="lblGeoPosRegionName" Content="Geo position region:"></Label>
+            <StackPanel Height="150">
+                <StackPanel Width="150" HorizontalAlignment="Center">
+                    <Label Content="Geo Position:" ></Label>
+                    <TextBox x:Name="txtGeoPos"></TextBox>
+                    <Button x:Name="btnSearchGeoPos" Content="Search" Command="{Binding LoadGeoLocationCommand}" CommandParameter="{Binding Text, ElementName=txtGeoPos}"></Button>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    <Label x:Name="lblGeoPosResult" HorizontalAlignment="Center" Content="{Binding GeolocationView.Label}"></Label>
+                    <!--<Label x:Name="lblGeoPosCountryName" Content="Geo position country:"></Label>
+                    <Label x:Name="lblGeoPosRegionName" Content="Geo position region:"></Label>-->
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </DockPanel>
-
 </Window>

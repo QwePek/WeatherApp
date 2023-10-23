@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Models
 {
-    internal class IpAddressInfo
+    public class IpAddressInfo
     {
         public int Version { get; set; }
         public string Key { get; set; }

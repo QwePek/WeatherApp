@@ -12,11 +12,13 @@ using System.Threading.Tasks;
 
 namespace P04WeatherForecastAPI.Client.Services
 {
-    internal class AccuWeatherService
+    public class AccuWeatherService : IAccuWeatherService
     {
         private const string base_url = "http://dataservice.accuweather.com";
         private const string autocomplete_endpoint = "locations/v1/cities/autocomplete?apikey={0}&q={1}&language={2}";
         private const string current_conditions_endpoint = "currentconditions/v1/{0}?apikey={1}&language={2}";
+        private const string weatherForecast1h_endpoint = "forecasts/v1/hourly/1hour/{0}?apikey={1}&language{2}";
+        private const string weatherForecast12h_endpoint = "forecasts/v1/hourly/12hour/{0}?apikey={1}&language{2}";
 
         //moje
         private const string ipAddressSearch_endpoint = "locations/v1/cities/ipaddress?apikey={0}&q={1}&language={2}";
@@ -83,6 +85,30 @@ namespace P04WeatherForecastAPI.Client.Services
                 string json = await response.Content.ReadAsStringAsync();
                 Geoposition geoPosi = JsonConvert.DeserializeObject<Geoposition>(json);
                 return geoPosi;
+            }
+        }
+
+        public async Task<HourlyForecast> GetForecastFor1Hour(string cityKey)
+        {
+            string url = base_url + "/" + string.Format(weatherForecast1h_endpoint, cityKey, api_key, language);
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(url);
+                string json = await response.Content.ReadAsStringAsync();
+                HourlyForecast[] dailyForecast = JsonConvert.DeserializeObject<HourlyForecast[]>(json);
+                return dailyForecast.FirstOrDefault();
+            }
+        }
+
+        public async Task<HourlyForecast[]> GetForecastFor12Hours(string cityKey)
+        {
+            string url = base_url + "/" + string.Format(weatherForecast12h_endpoint, cityKey, api_key, language);
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetAsync(url);
+                string json = await response.Content.ReadAsStringAsync();
+                HourlyForecast[] dailyForecast = JsonConvert.DeserializeObject<HourlyForecast[]>(json);
+                return dailyForecast;
             }
         }
     }
